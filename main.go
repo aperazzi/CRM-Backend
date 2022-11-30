@@ -26,6 +26,11 @@ var customers = []customer{
 	{ID: 5, Name: "Roby", Role: "UX Designer", Email: "ruby@design.com", Phone: "+346169614595", Contacted: true},
 }
 
+// getIndex serve static HTML
+func getIndex(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", nil)
+}
+
 // getCustomers respond with the list of all the customers as JSON.
 func getCustomers(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, customers)
@@ -48,6 +53,7 @@ func addCustomer(c *gin.Context) {
 			return
 		}
 	}
+
 	// Add the new customer to the slice.
 	customers = append(customers, newCustomer)
 	c.IndentedJSON(http.StatusCreated, newCustomer)
@@ -56,6 +62,7 @@ func addCustomer(c *gin.Context) {
 // getCustomer locates the customer whose ID value matches the id parameter
 // sent by the client, then returns that customer as a response.
 func getCustomer(c *gin.Context) {
+
 	// Get the id from the client and convert to int
 	var id, _ = strconv.Atoi(c.Param("id"))
 
@@ -77,7 +84,7 @@ func deleteCustomer(c *gin.Context) {
 
 	for i, customer := range customers {
 		if customer.ID == id {
-			customers = removeElement(customers, i)
+			customers = removeCustomer(customers, i)
 			c.IndentedJSON(http.StatusOK, customers)
 			return
 		}
@@ -85,8 +92,7 @@ func deleteCustomer(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Customer not found"})
 }
 
-// Utility that remove an element from the customers slice
-func removeElement(s []customer, i int) []customer {
+func removeCustomer(s []customer, i int) []customer {
 	if i >= len(s) || i < 0 {
 		return nil
 	}
@@ -121,6 +127,9 @@ func updateCustomer(c *gin.Context) {
 
 func main() {
 	router := gin.Default()
+	router.LoadHTMLFiles("index.html")
+
+	router.GET("/", getIndex)
 	router.GET("/customers", getCustomers)
 	router.GET("/customers/:id", getCustomer)
 	router.POST("/customers", addCustomer)
