@@ -1,6 +1,6 @@
 # CRM Backend
 
-The project represents the backend of a customer relationship management (CRM) web application, realised as final project for the [Go course at Udacity](https://www.udacity.com/course/golang--cd11970).Users can interact with the application by simply make API requests using [Postman](https://www.postman.com/) or [cURL](https://curl.se/).
+The project represents the backend of a customer relationship management (CRM) web application, realised as final project for the [Go course at Udacity](https://www.udacity.com/course/golang--cd11970). Users can interact with the application by simply make API requests using [Postman](https://www.postman.com/) or [cURL](https://curl.se/).
 
 The API handles the following 5 operations:
 
