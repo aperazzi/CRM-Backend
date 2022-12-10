@@ -1,9 +1,10 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"net/http"
 )
 
 // var id = uuid.New()
@@ -40,6 +41,7 @@ func getCustomers(c *gin.Context) {
 // addCustomer add a customer from JSON received in the request body.
 func addCustomer(c *gin.Context) {
 	var newCustomer customer
+	newCustomer.ID = uuid.New()
 
 	if err := c.BindJSON(&newCustomer); err != nil {
 		return
@@ -109,6 +111,7 @@ func updateCustomer(c *gin.Context) {
 	for i, customer := range customers {
 		customerID := (customer.ID).String()
 		if customerID == id {
+			updatedCustomer.ID = customer.ID
 			customers[i] = updatedCustomer
 			c.IndentedJSON(http.StatusOK, customers)
 			return
